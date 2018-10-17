@@ -1,12 +1,19 @@
-export class company {
-    name: string;
-    catchPhrase: string;
+import { FormGroup } from "@angular/forms";
+
+export class Company {
+    name = '';
+    catchPhrase = '';
 }
 
 export class User {
-    name: string;
-    id: string;
-    email: string;
-    company: company;
+    name = '';
+    id = 0;
+    email ='';
+    company: Company;
     constructor() {}
+}
+
+export class SuperUser extends User {
+    power = 'strength';
+    alias = 'Superman';
 }

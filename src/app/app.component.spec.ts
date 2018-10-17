@@ -5,7 +5,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent, FejkPersonComponent
+        AppComponent, FejkPersonComponent, FejkComponent
       ],
     }).compileComponents();
   }));
@@ -26,3 +26,11 @@ describe('AppComponent', () => {
   template: ''
 })
 export class FejkPersonComponent {}
+
+@Component({
+  selector: 'app-reactis',
+  template: ''
+})
+export class FejkComponent {}
+
+
