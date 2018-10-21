@@ -12,6 +12,10 @@ export class UserService {
   postsUrl = 'https://jsonplaceholder.typicode.com/posts';
   constructor(private http: HttpClient) { }
 
+  getUsers() {
+    return this.http.get<User[]>(`${this.userUrl}`);
+  }
+
   getUser(userId) {
     console.log('getUser');
     return this.http.get<User>(`${this.userUrl}/${userId}`);

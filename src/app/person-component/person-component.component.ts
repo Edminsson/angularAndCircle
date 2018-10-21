@@ -73,19 +73,24 @@ export class PersonComponentComponent implements OnInit {
         catchphrase: ''
       })
     });
-    this.userService.getUser(1).subscribe(data => {
-        this.person = data;
-        this.personForm.setValue({
-          id: data.id,
-          name: data.name,
-          email: data.email,
-          company: {
-            name: data.company.name,
-            catchphrase: data.company.catchPhrase
-          }
-        });
-      }
-    );
+    this.getUserAndSetPersonForm(2);
+
+  }
+
+  getUserAndSetPersonForm(userId) {
+    this.userService.getUser(userId).subscribe(data => {
+      this.person = data;
+      this.personForm.setValue({
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        company: {
+          name: data.company.name,
+          catchphrase: data.company.catchPhrase
+        }
+      });
+    }
+  );
 
   }
 

@@ -1,4 +1,4 @@
-import { TestBed, inject, tick } from '@angular/core/testing';
+import { TestBed, inject, tick, async, fakeAsync, flush } from '@angular/core/testing';
 import { Observable, forkJoin, from, of } from 'rxjs';
 import { UserService } from './user.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -87,7 +87,7 @@ describe('UserService', () => {
     reqUser.flush(person);
     reqPosts.flush(posts);
   });
-  it('should make two http call using forkJoin and match', () => {
+  it('should make two http call using forkJoin and match', async(() => {
     forkJoin(svc.getUser(1), svc.getPostsByUser(1)).subscribe(resultat => {
       console.log('resultat forkJoin', resultat);
       expect(resultat[0].id).toBe(1);
@@ -100,7 +100,7 @@ describe('UserService', () => {
     });
     console.log('ANTAL REQS With forJoin', req.length);
     req[0].flush(posts);
-  });
+  }));
   it('should make two http call using mergeMap and match', () => {
     // Jag får inte mergemap-testerna att funka riktigt.
     svc.getUser(1).pipe(mergeMap(usuario => {
@@ -139,7 +139,7 @@ describe('UserService', () => {
     // reqPosts.flush(posts);
     mockHttp.verify();
   });
-  it('catchError spec', () => {
+  it('catchError spec', async(() => {
     const lofte = new Promise((res, rej) => rej('palla'));
     const obsis = from(lofte);
     // obsis.subscribe(res => console.log('funkar'), err => console.log('nåt gick snett'));
@@ -149,7 +149,22 @@ describe('UserService', () => {
     }));
     // obsis.pipe(catchError(error => of('catchError upptäckte ett fel')));
     // obsis.subscribe(res => console.log('Subscribar på obsis'), fel => console.log('FEL', fel));
-    obsis.subscribe(res => console.log('Subscribar på obsis'));
-  });
+    obsis.subscribe(
+      res => console.log('Subscribar på obsis'),
+      fel => console.log('ytterligare en felhantering. Men jag kan inte se catchError-meddelandena'));
+  }));
+
+  it('fakeAsync with tick', fakeAsync(() => {
+    setTimeout(() => {
+      console.log('Nu har det gått 2 sekunder');
+    }, 2000);
+    tick(2000);
+  }));
+  it('fakeAsync with flush', fakeAsync(() => {
+    setTimeout(() => {
+      console.log('Nu har det gått 2 sekunder');
+    }, 2000);
+    flush();
+  }));
 
 });

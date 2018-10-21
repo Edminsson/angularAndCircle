@@ -1,5 +1,3 @@
-import { FormGroup } from "@angular/forms";
-
 export class Company {
     name = '';
     catchPhrase = '';
@@ -8,7 +6,7 @@ export class Company {
 export class User {
     name = '';
     id = 0;
-    email ='';
+    email = '';
     company: Company;
     constructor() {}
 }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { UserService } from '../user.service';
 import { User, Company, SuperUser } from '../user';
+import {pipe, of, from} from 'rxjs';
+import {map, mergeMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-reactis',
@@ -28,6 +30,17 @@ export class ReactisComponent implements OnInit {
       // this.reactisForm = this.fb.group(user);
       this.reactisForm.patchValue(user);
     });
+  }
+
+  getUsersAndLog() {
+    this.userService.getUsers()
+    .pipe(
+      // mergeMap(anvs => of(anvs.length))
+      mergeMap(anvs => from(anvs)),
+      map(anv => anv.name)
+      // map(anvs => anvs.length)
+    )
+    .subscribe(data => console.log('USERS:', data));
   }
 
   onSubmit() {
