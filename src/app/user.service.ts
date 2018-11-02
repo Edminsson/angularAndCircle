@@ -17,7 +17,7 @@ export class UserService {
   }
 
   getUser(userId) {
-    console.log('getUser');
+    // console.log('getUser');
     return this.http.get<User>(`${this.userUrl}/${userId}`);
   }
 
